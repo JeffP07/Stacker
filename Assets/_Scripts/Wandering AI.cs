@@ -1,11 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor.Animations;
-using Unity.VisualScripting;
 using UnityEngine.AI;
-using UnityEngine.Rendering.UI;
-using Unity.Burst.CompilerServices;
-using System.Linq;
 
 public class WanderingAI : MonoBehaviour {
     [Header("References")]
@@ -57,12 +52,6 @@ public class WanderingAI : MonoBehaviour {
     }
 
     void Update() {
-        //if (animator.GetBool("isTurning") || animator.GetBool("isJumping")) {
-        //    //animator.SetInteger("state", STATE_JUMP);
-        //    Jump();
-        //    return;
-        //}
-
         GetCatVelocity();
         switch (currentAction) {
             case "wander":
@@ -201,7 +190,7 @@ public class WanderingAI : MonoBehaviour {
             if (currentAction == "wander") {
                 int timeToNextAnnoy = Random.Range(120, 180);
                 yield return new WaitForSeconds(timeToNextAnnoy);
-
+                purrSource.mute = false;
                 isAnnoying = true;
                 int timeToAnnoy = Random.Range(10, 30);
                 yield return new WaitForSeconds(timeToAnnoy);
@@ -221,7 +210,7 @@ public class WanderingAI : MonoBehaviour {
         wanderTime = 0;
         animator.SetInteger("state", STATE_RUN);
         agent.speed = 1;
-        bool worked = agent.SetDestination(navMeshHit.position);
+        agent.SetDestination(navMeshHit.position);
         purrSource.mute = false;
     }
 }
