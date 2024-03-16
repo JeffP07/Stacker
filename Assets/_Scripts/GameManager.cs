@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     private static GameManager _instance;
+    public float mouseSensitivity = 100;
 
     public int NumCollisions {  get; set; }
     public int NumColliders { get; set; }

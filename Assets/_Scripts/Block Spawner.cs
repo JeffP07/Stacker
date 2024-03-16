@@ -8,6 +8,9 @@ public class BlockSpawner : MonoBehaviour
     [Header("References")]
     public GameObject blockPrefab;
 
+    public void Start() {
+    }
+
     public void spawnBlock() {
         Instantiate(blockPrefab, transform.position + transform.up * 0.25f, Quaternion.identity);
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostBlock : MonoBehaviour {
-    BoxCollider[] boxColliders;
     GameManager gameManager;
     int numCollisions = 0;
 

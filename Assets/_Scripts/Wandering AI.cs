@@ -1,17 +1,19 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class WanderingAI : MonoBehaviour {
     [Header("References")]
     public Transform player;
 
     [Header("Parameters")]
-    public float speed = 1f;  // Wandering forward speed
-    public float obstacleRange = 1f;
+    public float walkSpeed;
+    public float runSpeed;
+    public float obstacleRange;
     public GameObject toyTarget;
-    public float wanderRadius = 2f;
-    public float maxWanderTime = 5f;
+    public float wanderRadius;
+    public float maxWanderTime;
 
     [Header("Enums")]
     const int STATE_IDLE = 0;
@@ -23,7 +25,7 @@ public class WanderingAI : MonoBehaviour {
     const int STATE_TURN = 6;
 
     [Header("Sounds")]
-    public AudioClip[] meowClips;
+    public List<AudioClip> meowClips;
     private AudioSource audioSource;
     public AudioClip purr;
     public AudioClip meowchirp;
@@ -40,6 +42,7 @@ public class WanderingAI : MonoBehaviour {
     private bool isAnnoying = false;
 
     void Start() {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
         animator.SetInteger("state", STATE_WALK);
         agent = GetComponent<NavMeshAgent>();
@@ -81,7 +84,6 @@ public class WanderingAI : MonoBehaviour {
         if (toyTarget == null) {
             return;
         }
-        float step = speed * Time.deltaTime;
         Vector3 toyLocation = toyTarget.transform.position;
 
         NavMeshHit navMeshHit;
@@ -89,10 +91,10 @@ public class WanderingAI : MonoBehaviour {
         bool worked = agent.SetDestination(navMeshHit.position);
         if (!worked) {
             currentAction = "wander";
-            agent.speed = 0.5f;
+            agent.speed = walkSpeed;
             return;
         }
-        agent.speed = 1;
+        agent.speed = runSpeed;
         bool cast = Physics.Raycast(transform.position, transform.forward, out hit, 0.6f, 1 << LayerMask.NameToLayer("Mouse"));
         if (cast) {
             NavMesh.SamplePosition(transform.position + (toyLocation - transform.position) * 0.5f, out navMeshHit, 0.1f, -1);
@@ -103,17 +105,17 @@ public class WanderingAI : MonoBehaviour {
     IEnumerator PlayToy() {
         audioSource.PlayOneShot(meowchirp);
         toyTarget = null;
-        agent.speed = 0.1f;
+        agent.speed = walkSpeed/5.0f;
         yield return new WaitForSeconds(15.0f + Random.Range(0, 15));
 
-        agent.speed = 0.5f;
+        agent.speed = walkSpeed;
         wanderTime = 0;
         currentAction = "wander";
         coroutine = null;
     }
 
     public void Wander() {
-        agent.speed = 0.5f;
+        agent.speed = walkSpeed;
         wanderTime += Time.deltaTime;
         bool raycastWall = false;
         bool cast = Physics.Raycast(transform.position + transform.up * 0.25f, transform.forward, out hit, 0.5f, -1);
@@ -181,7 +183,7 @@ public class WanderingAI : MonoBehaviour {
         while (true) {
             int timeToMeow = Random.Range(30, 60);
             yield return new WaitForSeconds(timeToMeow);
-            audioSource.PlayOneShot(meowClips[Random.Range(0,meowClips.Length)]);
+            audioSource.PlayOneShot(meowClips[Random.Range(0,meowClips.Count)]);
         }
     }
 
@@ -209,7 +211,7 @@ public class WanderingAI : MonoBehaviour {
         NavMesh.SamplePosition(player.position, out navMeshHit, wanderRadius, -1);
         wanderTime = 0;
         animator.SetInteger("state", STATE_RUN);
-        agent.speed = 1;
+        agent.speed = runSpeed;
         agent.SetDestination(navMeshHit.position);
         purrSource.mute = false;
     }

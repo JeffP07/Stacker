@@ -106,7 +106,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -118,7 +118,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 255306910529653931}
   serializedVersion: 4
-  m_Mass: 70
+  m_Mass: 50
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -134,9 +134,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &10930690937011125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,16 +153,22 @@ MonoBehaviour:
   head: {fileID: 3526806615813030102}
   cam: {fileID: 2456788596973597270}
   crosshair: {fileID: 0}
-  dotCursor: {fileID: 0}
-  pickupCursor: {fileID: 0}
+  dotCursor: {fileID: 21300000, guid: 7333268b71a348b4a99ffe0f4c82348c, type: 3}
+  pickupCursor: {fileID: 21300000, guid: aa296fa3af8129f4f967e9f8b53d9111, type: 3}
   cat: {fileID: 0}
-  walkSpeed: 5
-  mouseLookSensitivity: 0
-  itemPickupDistance: 0
-  itemHoldDistance: 1
-  heldObjectMoveForce: 0
-  heldObjectDrag: 0
-  throwForce: 0
+  walkSpeed: 2.2
+  mouseLookSensitivity: 400
+  itemPickupDistance: 1.5
+  itemHoldDistance: 0.5
+  heldObjectMoveForce: 30
+  heldObjectDrag: 10
+  throwForce: 300
+  escapeMenu: {fileID: 0}
+  escapeMenuCanvas: {fileID: 0}
+  sensitivityGUI: {fileID: 0}
+  sensitivitySlider: {fileID: 0}
+  mouseSensitivity: 400
+  isPaused: 0
 --- !u!1 &4495865082865703853
 GameObject:
   m_ObjectHideFlags: 0

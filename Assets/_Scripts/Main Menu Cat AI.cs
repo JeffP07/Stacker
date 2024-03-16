@@ -4,11 +4,11 @@ using UnityEngine.AI;
 
 public class MainMenuCatAI : MonoBehaviour {
     [Header("Parameters")]
-    public float speed = 1f;  // Wandering forward speed
-    public float obstacleRange = 1f;
+    public float speed;
+    public float obstacleRange;
     public GameObject toyTarget;
-    public float wanderRadius = 2f;
-    public float maxWanderTime = 5f;
+    public float wanderRadius;
+    public float maxWanderTime;
 
     [Header("Enums")]
     const int STATE_IDLE = 0;

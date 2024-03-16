@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Configuration")]
     public float walkSpeed;
-    public float mouseLookSensitivity;
+    private float mouseLookSensitivity;
 
     [Header("Player Vars")]
     bool isCrouching = false;
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour {
     [Header("Held Item Vars")]
     public float itemPickupDistance;
     Transform heldObject = null;
-    public float itemHoldDistance = 1f;
+    public float itemHoldDistance;
     public float heldObjectMoveForce;
     public float heldObjectDrag;
     public float throwForce;
@@ -36,16 +37,57 @@ public class PlayerController : MonoBehaviour {
     private bool cast;
     private MouseScript mouseScript;
 
+    [Header("Pause Menu")]
+    public GameObject escapeMenu;
+    public Canvas escapeMenuCanvas;
+    public TextMeshProUGUI sensitivityGUI;
+    public Slider sensitivitySlider;
+    public bool isPaused;
+
     // Start is called before the first frame update
     void Start() {
+        cat = GameObject.FindGameObjectWithTag("Cat");
+        crosshair = GameObject.FindGameObjectWithTag("Cursor").GetComponent<Image>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         horizLook = transform.eulerAngles.y;
         vertLook = head.localEulerAngles.x;
+        escapeMenu = GameObject.FindGameObjectWithTag("Escape");
+        escapeMenuCanvas = escapeMenu.GetComponent<Canvas>();
+        sensitivitySlider = escapeMenu.GetComponentInChildren<Slider>();
+        sensitivityGUI = sensitivitySlider.GetComponentInChildren<TextMeshProUGUI>();
+        mouseLookSensitivity = GameManager.Instance.mouseSensitivity;
+        sensitivitySlider.value = mouseLookSensitivity;
+        isPaused = false;
     }
 
     // Update is called once per frame
     void Update() {
+        // pause menu
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+
+            escapeMenuCanvas.enabled = !escapeMenuCanvas.enabled;
+            if (escapeMenuCanvas.enabled) {
+                isPaused = true;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.Confined;
+                sensitivitySlider.value = player.GetComponent<PlayerController>().mouseLookSensitivity;
+            }
+            else {
+                isPaused = false;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
+        if (isPaused) {
+            sensitivityGUI.text = "Mouse Sensitivity: " + sensitivitySlider.value.ToString();
+        }
+
+        if (isPaused) {
+            return;
+        }
+
         // mouse look
         horizLook += Input.GetAxis("Mouse X") * mouseLookSensitivity * Time.deltaTime;
         vertLook -= Input.GetAxis("Mouse Y") * mouseLookSensitivity * Time.deltaTime;
@@ -166,5 +208,10 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void ChangeSensitivity(float sensitivity) {
+        mouseLookSensitivity = sensitivity;
+        GameManager.Instance.mouseSensitivity = sensitivity;
     }
 }

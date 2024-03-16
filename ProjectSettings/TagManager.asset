@@ -8,6 +8,9 @@ TagManager:
   - Spawner
   - Floor
   - Wall
+  - Cat
+  - Cursor
+  - Escape
   layers:
   - Default
   - TransparentFX
