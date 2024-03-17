@@ -13,6 +13,7 @@ TagManager:
   - Escape
   - ObjectiveManager
   - Timer
+  - Fireworks
   layers:
   - Default
   - TransparentFX

@@ -14,6 +14,7 @@ public class ObjectiveManager : MonoBehaviour {
     public GameObject stackEasy;
     public GameObject stackHard;
     public TextMeshPro timer;
+    public GameObject fireworks;
 
     const int DIFFICULTY_EASY = 0;
     const int DIFFICULTY_HARD = 1;
@@ -49,12 +50,10 @@ public class ObjectiveManager : MonoBehaviour {
         else {
             timeLeft = timeToWin;
         }
-
         if (timeLeft <= 0) {
-            Debug.Log("WIN");
+            fireworks.SetActive(true);
         }
-        //Debug.Log(timeLeft);
-        timer.text = (timeLeft<=0) ? "Winner!" : timeLeft.ToString("#.00");
+        timer.text = (timeLeft<=0) ? "Winner!" : (timeLeft.ToString("0.00") + "s");
     }
 
     public void LoadObjective() {
@@ -63,17 +62,23 @@ public class ObjectiveManager : MonoBehaviour {
         if (gameMode == GAMEMODE_HEIGHT) {
             if (difficulty == DIFFICULTY_EASY) {
                 stackEasy.SetActive(true);
+                numColliders = stackEasy.GetComponentsInChildren<Collider>().Length;
             }
             else if (difficulty == DIFFICULTY_HARD) {
                 stackHard.SetActive(true);
+                numColliders = stackHard.GetComponentsInChildren<Collider>().Length;
             }
         }
         else if (gameMode == GAMEMODE_BUILD) {
             if (difficulty == DIFFICULTY_EASY) {
-                buildingsEasy[Random.Range(0, buildingsEasy.Count - 1)].SetActive(true);
+                int rand = Random.Range(0, buildingsEasy.Count - 1);
+                buildingsEasy[rand].SetActive(true);
+                numColliders = buildingsEasy[rand].GetComponentsInChildren<Collider>().Length;
             }
             else if(difficulty == DIFFICULTY_HARD) {
-                buildingsHard[Random.Range(0, buildingsHard.Count - 1)].SetActive(true);
+                int rand = Random.Range(0, buildingsHard.Count - 1);
+                buildingsHard[rand].SetActive(true);
+                numColliders = buildingsHard[rand].GetComponentsInChildren<Collider>().Length;
             }
         }
     }

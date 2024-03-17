@@ -9,6 +9,11 @@ Uses some non-free assets from Red Deer at https://assetstore.unity.com/packages
 https://assetstore.unity.com/packages/3d/environments/interior-house-assets-urp-257122<br/>
 
 
+## Free Fireworks assets from:
+
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/fireworks-free-realistic-fireworks-with-vfx-graph-208311<br />
+
+
 ## Free Sound Effects from:
 
 https://pixabay.com/sound-effects/cat-meow-195613/<br/>
