@@ -8,8 +8,9 @@ public class GameManager : MonoBehaviour {
     private static GameManager _instance;
     public float mouseSensitivity = 100;
 
-    public int NumCollisions {  get; set; }
-    public int NumColliders { get; set; }
+    public int numCollisions { get; set; }
+    public int difficulty { get; set; }
+    public int gameMode { get; set; }
 
     public static GameManager Instance {
         get {
@@ -29,6 +30,8 @@ public class GameManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(this);
-        NumCollisions = 0;
+        difficulty = 0;
+        gameMode = 0;
+        numCollisions = 0;
     }
 }

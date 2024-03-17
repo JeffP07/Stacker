@@ -11,6 +11,8 @@ TagManager:
   - Cat
   - Cursor
   - Escape
+  - ObjectiveManager
+  - Timer
   layers:
   - Default
   - TransparentFX

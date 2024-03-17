@@ -11893,7 +11893,7 @@ GameObject:
   - component: {fileID: -1665620837896846176}
   m_Layer: 6
   m_Name: Ghost Block
-  m_TagString: Pickup
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -25,17 +25,11 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Held Item Vars")]
     public float itemPickupDistance;
-    Transform heldObject = null;
+    public Transform heldObject = null;
     public float itemHoldDistance;
     public float heldObjectMoveForce;
     public float heldObjectDrag;
     public float throwForce;
-
-    private float horizLook;
-    private float vertLook;
-    private RaycastHit hit;
-    private bool cast;
-    private MouseScript mouseScript;
 
     [Header("Pause Menu")]
     public GameObject escapeMenu;
@@ -43,6 +37,12 @@ public class PlayerController : MonoBehaviour {
     public TextMeshProUGUI sensitivityGUI;
     public Slider sensitivitySlider;
     public bool isPaused;
+
+    private float horizLook;
+    private float vertLook;
+    private RaycastHit hit;
+    private bool cast;
+    private MouseScript mouseScript;
 
     // Start is called before the first frame update
     void Start() {

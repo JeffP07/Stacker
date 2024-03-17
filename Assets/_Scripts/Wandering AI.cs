@@ -15,7 +15,13 @@ public class WanderingAI : MonoBehaviour {
     public float wanderRadius;
     public float maxWanderTime;
 
-    [Header("Enums")]
+    [Header("Sounds")]
+    public List<AudioClip> meowClips;
+    private AudioSource audioSource;
+    public AudioClip purr;
+    public AudioClip meowchirp;
+    public AudioSource purrSource;
+
     const int STATE_IDLE = 0;
     const int STATE_WALK = 1;
     const int STATE_SIT = 2;
@@ -23,13 +29,6 @@ public class WanderingAI : MonoBehaviour {
     const int STATE_PLAY_TOY = 4;
     const int STATE_JUMP = 5;
     const int STATE_TURN = 6;
-
-    [Header("Sounds")]
-    public List<AudioClip> meowClips;
-    private AudioSource audioSource;
-    public AudioClip purr;
-    public AudioClip meowchirp;
-    public AudioSource purrSource;
 
     private Animator animator;
     private string currentAction = "wander";
