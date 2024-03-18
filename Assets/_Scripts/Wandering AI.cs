@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class WanderingAI : MonoBehaviour {
     [Header("References")]
     public Transform player;
+    public Transform table;
 
     [Header("Parameters")]
     public float walkSpeed;
@@ -125,10 +126,15 @@ public class WanderingAI : MonoBehaviour {
             }
         }
         if (wanderTime > maxWanderTime || (!agent.pathPending && !agent.hasPath) || raycastWall) {
-            Vector3 randomDirection = Random.insideUnitSphere * wanderRadius;
-            randomDirection += transform.position + transform.forward;
+            Vector3 randomPoint;
+            if (Random.Range(1, 100) <= 5) {
+                randomPoint = table.position + (table.up * 0.6f) + Random.insideUnitSphere;
+            }
+            else {
+                randomPoint = transform.position + transform.forward + Random.insideUnitSphere * wanderRadius;
+            }
             NavMeshHit navMeshHit;
-            NavMesh.SamplePosition(randomDirection, out navMeshHit, wanderRadius, -1);
+            NavMesh.SamplePosition(randomPoint, out navMeshHit, wanderRadius, -1);
             agent.destination = navMeshHit.position;
             agent.stoppingDistance = 0;
             wanderTime = 0;
