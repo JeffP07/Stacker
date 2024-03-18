@@ -85,7 +85,6 @@ public class WanderingAI : MonoBehaviour {
             return;
         }
         Vector3 toyLocation = toyTarget.transform.position;
-
         NavMeshHit navMeshHit;
         NavMesh.SamplePosition(toyLocation, out navMeshHit, 0.2f, -1);
         bool worked = agent.SetDestination(navMeshHit.position);
@@ -127,13 +126,13 @@ public class WanderingAI : MonoBehaviour {
         }
         if (wanderTime > maxWanderTime || (!agent.pathPending && !agent.hasPath) || raycastWall) {
             Vector3 randomPoint;
+            NavMeshHit navMeshHit;
             if (Random.Range(1, 100) <= 5) {
                 randomPoint = table.position + (table.up * 0.6f) + Random.insideUnitSphere;
             }
             else {
                 randomPoint = transform.position + transform.forward + Random.insideUnitSphere * wanderRadius;
             }
-            NavMeshHit navMeshHit;
             NavMesh.SamplePosition(randomPoint, out navMeshHit, wanderRadius, -1);
             agent.destination = navMeshHit.position;
             agent.stoppingDistance = 0;
@@ -166,7 +165,6 @@ public class WanderingAI : MonoBehaviour {
     void OnAnimatorMove() {
         // Update position to agent position
         transform.position = agent.nextPosition;
-        
     }
     
     public void StopPlay() {
