@@ -21,6 +21,7 @@ public class ObjectiveManager : MonoBehaviour {
     const int GAMEMODE_HEIGHT = 0;
     const int GAMEMODE_BUILD = 1;
 
+    [Header("Parameters")]
     public float winPercentage;
     public float timeToWin;
     private float timeLeft;
@@ -53,7 +54,13 @@ public class ObjectiveManager : MonoBehaviour {
         if (timeLeft <= 0) {
             fireworks.SetActive(true);
         }
-        timer.text = (timeLeft<=0) ? "Winner!" : (timeLeft.ToString("0.00") + "s");
+        if (timeLeft == 10) {
+            timer.gameObject.SetActive(false);
+        }
+        else {
+            timer.gameObject.SetActive(true);
+            timer.text = (timeLeft <= 0) ? "Winner!" : (timeLeft.ToString("0.00") + "s");
+        }
     }
 
     public void LoadObjective() {
@@ -71,12 +78,12 @@ public class ObjectiveManager : MonoBehaviour {
         }
         else if (gameMode == GAMEMODE_BUILD) {
             if (difficulty == DIFFICULTY_EASY) {
-                int rand = Random.Range(0, buildingsEasy.Count - 1);
+                int rand = Random.Range(0, buildingsEasy.Count);
                 buildingsEasy[rand].SetActive(true);
                 numColliders = buildingsEasy[rand].GetComponentsInChildren<Collider>().Length;
             }
             else if(difficulty == DIFFICULTY_HARD) {
-                int rand = Random.Range(0, buildingsHard.Count - 1);
+                int rand = Random.Range(0, buildingsHard.Count);
                 buildingsHard[rand].SetActive(true);
                 numColliders = buildingsHard[rand].GetComponentsInChildren<Collider>().Length;
             }

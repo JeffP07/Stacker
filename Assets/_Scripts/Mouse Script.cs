@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseScript : MonoBehaviour
-{
+public class MouseScript : MonoBehaviour {
     public bool isThrown;
     public GameObject cat;
 

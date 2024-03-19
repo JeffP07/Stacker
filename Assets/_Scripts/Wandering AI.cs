@@ -127,7 +127,7 @@ public class WanderingAI : MonoBehaviour {
         if (wanderTime > maxWanderTime || (!agent.pathPending && !agent.hasPath) || raycastWall) {
             Vector3 randomPoint;
             NavMeshHit navMeshHit;
-            if (Random.Range(1, 100) <= 5) {
+            if (Random.Range(0, 100) <= 5) {
                 randomPoint = table.position + (table.up * 0.6f) + Random.insideUnitSphere;
             }
             else {
