@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
     [Header("References")]
+    public CharacterController characterController;
     public Rigidbody player;
     public Transform head;
     public Camera cam;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Configuration")]
     public float walkSpeed;
+    public float gravity;
     private float mouseLookSensitivity;
 
     [Header("Player Vars")]
@@ -50,8 +52,8 @@ public class PlayerController : MonoBehaviour {
         crosshair = GameObject.FindGameObjectWithTag("Cursor").GetComponent<Image>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        horizLook = transform.eulerAngles.y;
-        vertLook = head.localEulerAngles.x;
+        horizLook = head.eulerAngles.y;
+        vertLook = head.eulerAngles.x;
         escapeMenu = GameObject.FindGameObjectWithTag("Escape");
         escapeMenuCanvas = escapeMenu.GetComponent<Canvas>();
         sensitivitySlider = escapeMenu.GetComponentInChildren<Slider>();
@@ -94,7 +96,7 @@ public class PlayerController : MonoBehaviour {
         vertLook = Mathf.Clamp(vertLook, -85f, 85f);
         head.localRotation = Quaternion.Euler(vertLook, horizLook, 0);
 
-        // Movement
+        // crouch
         if (Input.GetKeyDown(KeyCode.LeftControl)) {
             isCrouching = !isCrouching;
             if (isCrouching) { 
@@ -104,6 +106,17 @@ public class PlayerController : MonoBehaviour {
                 head.Translate(Vector3.up * 0.6f, Space.World);
             }
         }
+
+        // movement
+        float deltaX = Input.GetAxis("Horizontal") * walkSpeed;
+        float deltaZ = Input.GetAxis("Vertical") * walkSpeed;
+        Vector3 movement = (head.forward * deltaZ) + (head.right * deltaX);
+        movement = Vector3.ClampMagnitude(movement, walkSpeed);
+        movement.y = gravity;
+        movement *= Time.deltaTime;
+        // Transforms movement from local space to world space.
+        movement = transform.TransformDirection(movement);
+        characterController.Move(movement);
 
         // interact with objects
         cast = Physics.Raycast(head.position, head.forward, out hit, itemPickupDistance, -1 & ~(1 << LayerMask.NameToLayer("Ghost Blocks")));
@@ -164,11 +177,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        Vector3 forward = head.forward;
-        Vector3 right = head.right;
-        forward.y = 0;
-        right.y = 0;
-        transform.position += (forward * Input.GetAxis("Vertical") + right * Input.GetAxis("Horizontal")) * Time.deltaTime * walkSpeed;
     }
 
     private void LateUpdate() {
