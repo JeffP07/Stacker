@@ -45,7 +45,6 @@ public class MainMenuCatAI : MonoBehaviour {
                 break;
             case "findtoy":
                 animator.SetInteger("state", STATE_RUN);
-                Debug.Log("find case");
                 FindToy();
                 break;
             case "playtoy":
@@ -58,7 +57,6 @@ public class MainMenuCatAI : MonoBehaviour {
     }
 
     public void FindToy() {
-        Debug.Log("find");
         if (toyTarget == null) {
             return;
         }
